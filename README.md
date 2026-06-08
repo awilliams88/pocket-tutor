@@ -48,7 +48,7 @@ silently failing.
 | Gradio Space in `build-small-hackathon` | `build-small-hackathon/pocket-tutor` |
 | Track | Backyard AI |
 | Sponsor focus | OpenBMB MiniCPM-V multimodal tutoring |
-| Merit targets | Off-Brand, Best Agent, Well-Tuned |
+| Merit targets | Off-Brand, Best Agent, Well-Tuned, Off the Grid |
 | Multimodal input | Image upload/webcam, typed question, microphone transcript |
 | Fine-tuning | Modal QLoRA adapter trained on app-format Socratic tutoring examples |
 | Demo/social links | Add final demo video and social post links after recording |
