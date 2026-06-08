@@ -15,7 +15,6 @@ SPACE_URL = "https://huggingface.co/spaces/build-small-hackathon/pocket-tutor"
 
 # Model metadata keeps docs, logs, and UI aligned.
 MODEL_ID = "openbmb/MiniCPM-V-4.6"
-FALLBACK_MODEL_ID = "openbmb/MiniCPM3-4B"
 SPEECH_MODEL_ID = "openai/whisper-small"
 ADAPTER_REPO_ID = "build-small-hackathon/pocket-tutor-minicpmv-socratic"
 SPONSOR_NAME = "OpenBMB"

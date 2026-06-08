@@ -31,15 +31,15 @@ steps, a quality check, the next hint, and a parent support note.
 ## Model Plan
 
 - Primary model: `openbmb/MiniCPM-V-4.6` for image + text tutoring
-- Text fallback: `openbmb/MiniCPM3-4B`
 - Speech input: `openai/whisper-small` local transcription
 - Fine-tuned adapter: `build-small-hackathon/pocket-tutor-minicpmv-socratic`
 - Training: Modal A10G QLoRA on current app-format tutoring examples
 - Parameter cap: every planned model is under the 32B hackathon limit
 
-The app does not call an external answer API. If local model execution is still
-loading or unavailable, it returns a deterministic tutoring scaffold instead of
-silently failing.
+The app does not call an external answer API. Text-only and image-based
+questions both route through the same multimodal model. If local model execution
+is still loading or unavailable, it returns a deterministic tutoring scaffold
+instead of silently failing.
 
 ## Hackathon Alignment
 
