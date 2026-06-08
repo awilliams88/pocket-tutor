@@ -3,8 +3,8 @@ from __future__ import annotations
 # Gradio CSS overrides create a distinct chalkboard tutoring interface.
 CUSTOM_CSS = """
 body, .gradio-container {
-    background-color: #071512 !important;
-    color: #e6fffb !important;
+    background-color: #050816 !important;
+    color: #e2e8f0 !important;
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
 
@@ -17,14 +17,14 @@ body, .gradio-container {
     box-shadow: none !important;
 }
 #pt-header h1 {
-    color: #5eead4 !important;
+    color: #67e8f9 !important;
     font-size: 2.7rem !important;
     font-weight: 750 !important;
     letter-spacing: 0 !important;
     margin-bottom: 0.35rem !important;
 }
 #pt-header p {
-    color: #a7f3d0 !important;
+    color: #cbd5e1 !important;
     font-size: 1.08rem !important;
     margin: 0 !important;
 }
@@ -33,46 +33,47 @@ body, .gradio-container {
     max-width: 92%;
     margin: 0 auto 1.5rem auto;
     padding: 0.7rem 1.6rem !important;
-    background-color: rgba(20, 184, 166, 0.08) !important;
-    border: 1px solid rgba(94, 234, 212, 0.5) !important;
+    background-color: rgba(34, 211, 238, 0.08) !important;
+    border: 1px solid rgba(103, 232, 249, 0.45) !important;
     border-radius: 8px !important;
     text-align: center;
-    color: #ccfbf1 !important;
+    color: #cffafe !important;
 }
 
-.pt-main-grid, .pt-card-grid, .pt-example-grid, .pt-control-row {
+.pt-main-grid, .pt-plan-grid, .pt-workbench-grid, .pt-example-grid, .pt-control-row {
     gap: 1rem !important;
     align-items: stretch !important;
 }
 .pt-main-grid > .form, .pt-main-grid > .row, .pt-main-grid > div,
-.pt-card-grid > .form, .pt-card-grid > .row, .pt-card-grid > div,
+.pt-plan-grid > .form, .pt-plan-grid > .row, .pt-plan-grid > div,
+.pt-workbench-grid > .form, .pt-workbench-grid > .row, .pt-workbench-grid > div,
 .pt-example-grid > .form, .pt-example-grid > .row, .pt-example-grid > div {
     display: flex !important;
     flex-wrap: wrap !important;
     gap: 1rem !important;
 }
-.pt-input-panel, .pt-output-panel, .pt-analysis-section, .pt-examples-section {
-    background-color: #0e211d !important;
-    border: 1px solid rgba(45, 212, 191, 0.25) !important;
+.pt-input-panel, .pt-capture-panel, .pt-analysis-section, .pt-examples-section {
+    background-color: #0d1324 !important;
+    border: 1px solid rgba(103, 232, 249, 0.18) !important;
     border-radius: 8px !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.34) !important;
     padding: 1.15rem !important;
 }
 .pt-analysis-section, .pt-examples-section {
     margin-top: 1rem !important;
 }
-.pt-input-panel, .pt-output-panel {
+.pt-input-panel, .pt-capture-panel {
     flex: 1 1 330px !important;
 }
-.pt-input-panel h3, .pt-output-panel h3, .pt-analysis-section h3, .pt-examples-section h3 {
-    color: #fef3c7 !important;
+.pt-input-panel h3, .pt-capture-panel h3, .pt-analysis-section h3, .pt-examples-section h3 {
+    color: #f8fafc !important;
     margin: 0 0 0.75rem 0 !important;
 }
 
 #pt-question-input textarea, .pt-log-box textarea {
-    background-color: #081714 !important;
+    background-color: #08101d !important;
     color: #f8fafc !important;
-    border: 1px solid rgba(94, 234, 212, 0.28) !important;
+    border: 1px solid rgba(103, 232, 249, 0.22) !important;
     border-radius: 8px !important;
     line-height: 1.5 !important;
 }
@@ -81,8 +82,8 @@ body, .gradio-container {
     overflow: hidden !important;
 }
 .pt-run-btn {
-    background: #f59e0b !important;
-    color: #071512 !important;
+    background: linear-gradient(135deg, #22c55e 0%, #14b8a6 100%) !important;
+    color: #04111a !important;
     border: none !important;
     border-radius: 8px !important;
     font-weight: 750 !important;
@@ -103,7 +104,7 @@ body, .gradio-container {
     min-width: 0 !important;
 }
 .pt-output-card textarea {
-    background-color: #081714 !important;
+    background-color: #08101d !important;
     color: #f8fafc !important;
     border-radius: 8px !important;
     font-size: 0.98rem !important;
@@ -111,18 +112,18 @@ body, .gradio-container {
     padding: 0.85rem !important;
     overflow-wrap: anywhere !important;
 }
-.pt-problem-card textarea { border: 1px solid rgba(94, 234, 212, 0.48) !important; }
+.pt-problem-card textarea { border: 1px solid rgba(103, 232, 249, 0.48) !important; }
 .pt-knowns-card textarea { border: 1px solid rgba(250, 204, 21, 0.48) !important; }
-.pt-strategy-card textarea { border: 1px solid rgba(56, 189, 248, 0.48) !important; }
+.pt-strategy-card textarea { border: 1px solid rgba(96, 165, 250, 0.48) !important; }
 .pt-steps-card textarea { border: 1px solid rgba(167, 139, 250, 0.48) !important; }
-.pt-check-card textarea { border: 1px solid rgba(52, 211, 153, 0.48) !important; }
+.pt-check-card textarea { border: 1px solid rgba(34, 197, 94, 0.48) !important; }
 .pt-hint-card textarea { border: 1px solid rgba(251, 146, 60, 0.48) !important; }
 .pt-parent-card textarea { border: 1px solid rgba(244, 114, 182, 0.48) !important; }
 
 .pt-example-card {
     flex: 1 1 245px !important;
-    background-color: #081714 !important;
-    border: 1px solid rgba(148, 163, 184, 0.22) !important;
+    background-color: #08101d !important;
+    border: 1px solid rgba(148, 163, 184, 0.18) !important;
     border-radius: 8px !important;
     padding: 0.85rem !important;
 }
@@ -135,7 +136,7 @@ body, .gradio-container {
     display: flex;
     justify-content: space-between;
     gap: 0.8rem;
-    color: #ccfbf1;
+    color: #cffafe;
     font-weight: 700;
 }
 .pt-example-head strong {
@@ -143,7 +144,7 @@ body, .gradio-container {
     white-space: nowrap;
 }
 .pt-example-copy p {
-    color: #b6e7df;
+    color: #dbeafe;
     margin: 0;
     line-height: 1.45;
 }

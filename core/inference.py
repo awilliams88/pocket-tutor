@@ -43,6 +43,11 @@ def transcribe_audio(audio_path: object | None) -> tuple[str, str]:
                 "automatic-speech-recognition",
                 model=SPEECH_MODEL_ID,
                 token=os.environ.get("HF_TOKEN"),
+                generate_kwargs={
+                    "task": "transcribe",
+                    "language": "en",
+                },
+                clean_up_tokenization_spaces=False,
             )
         result = _speech_pipeline(str(audio_path))
         transcript = str(result.get("text", "")).strip()

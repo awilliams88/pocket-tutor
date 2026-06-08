@@ -10,9 +10,9 @@ from ui.examples import render_examples
 
 
 def get_theme() -> Any:
-    """Returns the custom soft theme configured for chalkboard teal styling."""
+    """Returns the custom soft theme configured for a deeper tutoring palette."""
     # Pair the CSS with a calm tutoring palette.
-    return Soft(primary_hue="teal", secondary_hue="amber", neutral_hue="slate")
+    return Soft(primary_hue="teal", secondary_hue="amber", neutral_hue="zinc")
 
 
 def create_app() -> gr.Blocks:
@@ -26,20 +26,37 @@ def create_app() -> gr.Blocks:
         )
 
         with gr.Row(elem_classes=["pt-main-grid"]):
-            # Left column collects multimodal homework context.
-            with gr.Column(scale=1, elem_classes=["pt-input-panel"]):
+            # Left column collects the learner prompt and academic settings.
+            with gr.Column(scale=2, elem_classes=["pt-input-panel"]):
                 gr.Markdown("## Homework Input")
+                question_input = gr.Textbox(
+                    label="What should we work on?",
+                    lines=7,
+                    placeholder="Type the problem, the line that confused you, or what you already tried.",
+                    elem_id="pt-question-input",
+                )
+                with gr.Row(elem_classes=["pt-control-row"]):
+                    grade_input = gr.Dropdown(
+                        ["Elementary", "Middle school", "High school", "College"],
+                        value="Middle school",
+                        label="Grade band",
+                        elem_classes=["pt-grade-input"],
+                    )
+                    mode_input = gr.Radio(
+                        ["Coach me", "Hint only", "Step-by-step"],
+                        value="Coach me",
+                        label="Help mode",
+                        elem_classes=["pt-mode-input"],
+                    )
+
+            # Right column handles capture inputs and the submit action.
+            with gr.Column(scale=1, elem_classes=["pt-capture-panel"]):
+                gr.Markdown("## Media Capture")
                 image_input = gr.Image(
                     label="Upload or capture a worksheet/photo",
                     type="filepath",
                     sources=["upload", "webcam", "clipboard"],
                     elem_classes=["pt-image-input"],
-                )
-                question_input = gr.Textbox(
-                    label="What should we work on?",
-                    lines=5,
-                    placeholder="Type the problem, the line that confused you, or what you already tried.",
-                    elem_id="pt-question-input",
                 )
                 audio_input = gr.Audio(
                     label="Ask with your microphone",
@@ -47,26 +64,15 @@ def create_app() -> gr.Blocks:
                     type="filepath",
                     elem_classes=["pt-audio-input"],
                 )
-                with gr.Row(elem_classes=["pt-control-row"]):
-                    grade_input = gr.Dropdown(
-                        ["Elementary", "Middle school", "High school", "College"],
-                        value="Middle school",
-                        label="Grade band",
-                    )
-                    mode_input = gr.Radio(
-                        ["Coach me", "Hint only", "Step-by-step"],
-                        value="Coach me",
-                        label="Help mode",
-                    )
                 run_button = gr.Button(
                     "Tutor This",
                     variant="primary",
                     elem_classes=["pt-run-btn"],
                 )
 
-            # Right column gives the step-by-step tutoring answer.
-            with gr.Column(scale=1, elem_classes=["pt-output-panel"]):
-                gr.Markdown("## Tutoring Plan")
+        with gr.Column(elem_classes=["pt-analysis-section"]):
+            gr.Markdown("## Tutoring Plan")
+            with gr.Row(elem_classes=["pt-plan-grid"]):
                 problem_output = gr.Textbox(
                     label="Problem Read",
                     lines=4,
@@ -86,9 +92,8 @@ def create_app() -> gr.Blocks:
                     elem_classes=["pt-output-card", "pt-strategy-card"],
                 )
 
-        with gr.Column(elem_classes=["pt-analysis-section"]):
             gr.Markdown("## Workbench")
-            with gr.Row(elem_classes=["pt-card-grid"]):
+            with gr.Row(elem_classes=["pt-workbench-grid"]):
                 steps_output = gr.Textbox(
                     label="Worked Steps",
                     lines=7,
@@ -101,7 +106,7 @@ def create_app() -> gr.Blocks:
                     interactive=False,
                     elem_classes=["pt-output-card", "pt-check-card"],
                 )
-            with gr.Row(elem_classes=["pt-card-grid"]):
+            with gr.Row(elem_classes=["pt-workbench-grid"]):
                 hint_output = gr.Textbox(
                     label="Next Hint",
                     lines=5,

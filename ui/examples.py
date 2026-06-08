@@ -29,6 +29,42 @@ EXAMPLE_CARDS = [
         "mode": "Coach me",
         "text": "My essay is about whether school uniforms help students focus. My thesis sounds too broad.",
     },
+    {
+        "title": "Algebra Check",
+        "grade": "High school",
+        "mode": "Step-by-step",
+        "text": "Solve 2x + 7 = 19. I know the answer is x = 6, but I want to understand the steps.",
+    },
+    {
+        "title": "Science Claim",
+        "grade": "Middle school",
+        "mode": "Hint only",
+        "text": "The lab question asks why metal spoons feel colder than wooden spoons. I need help explaining the idea without memorizing words.",
+    },
+    {
+        "title": "Reading Theme",
+        "grade": "Middle school",
+        "mode": "Coach me",
+        "text": "The story has a character who keeps checking the door and looking at the clock. I need help explaining the mood with evidence.",
+    },
+    {
+        "title": "Geometry Help",
+        "grade": "High school",
+        "mode": "Step-by-step",
+        "text": "A triangle has angles 45 degrees and 65 degrees. What is the third angle, and why?",
+    },
+    {
+        "title": "Statistics Question",
+        "grade": "College",
+        "mode": "Coach me",
+        "text": "My dataset has a mean of 14 and a median of 9. How do I explain what that says about the shape of the data?",
+    },
+    {
+        "title": "Parent Note",
+        "grade": "Elementary",
+        "mode": "Hint only",
+        "text": "My child says 9 minus 4 equals 6. I want help giving a calm hint instead of just correcting them.",
+    },
 ]
 
 
