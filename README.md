@@ -16,6 +16,7 @@ tags:
 - off-brand
 - best-agent
 - multimodal
+- off-the-grid
 - modal
 - well-tuned
 ---
