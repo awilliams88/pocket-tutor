@@ -148,11 +148,15 @@ def _run_model_inference(prompt: str, image_path: str | None) -> tuple[str, str]
             enable_thinking=False,
         ).to(model.device)
         with torch.inference_mode():
+            pad_token_id = getattr(processor.tokenizer, "pad_token_id", None)
+            eos_token_id = getattr(processor.tokenizer, "eos_token_id", None)
             output = model.generate(
                 **inputs,
                 max_new_tokens=128,
                 do_sample=False,
                 repetition_penalty=1.05,
+                pad_token_id=pad_token_id if pad_token_id is not None else eos_token_id,
+                eos_token_id=eos_token_id,
             )
         response = processor.decode(
             output[0, inputs["input_ids"].shape[1] :],

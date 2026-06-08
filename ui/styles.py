@@ -3,8 +3,8 @@ from __future__ import annotations
 # Gradio CSS overrides create a distinct chalkboard tutoring interface.
 CUSTOM_CSS = """
 body, .gradio-container {
-    background-color: #050816 !important;
-    color: #e2e8f0 !important;
+    background-color: #000000 !important;
+    color: #e5e7eb !important;
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
 
@@ -17,14 +17,14 @@ body, .gradio-container {
     box-shadow: none !important;
 }
 #pt-header h1 {
-    color: #67e8f9 !important;
+    color: #a7f3d0 !important;
     font-size: 2.7rem !important;
     font-weight: 750 !important;
     letter-spacing: 0 !important;
     margin-bottom: 0.35rem !important;
 }
 #pt-header p {
-    color: #cbd5e1 !important;
+    color: #d1d5db !important;
     font-size: 1.08rem !important;
     margin: 0 !important;
 }
@@ -33,11 +33,11 @@ body, .gradio-container {
     max-width: 92%;
     margin: 0 auto 1.5rem auto;
     padding: 0.7rem 1.6rem !important;
-    background-color: rgba(34, 211, 238, 0.08) !important;
-    border: 1px solid rgba(103, 232, 249, 0.45) !important;
+    background-color: rgba(22, 101, 52, 0.22) !important;
+    border: 1px solid rgba(167, 243, 208, 0.24) !important;
     border-radius: 8px !important;
     text-align: center;
-    color: #cffafe !important;
+    color: #dcfce7 !important;
 }
 
 .pt-main-grid, .pt-plan-grid, .pt-workbench-grid, .pt-example-grid, .pt-control-row {
@@ -53,10 +53,10 @@ body, .gradio-container {
     gap: 1rem !important;
 }
 .pt-input-panel, .pt-capture-panel, .pt-analysis-section, .pt-examples-section {
-    background-color: #0d1324 !important;
-    border: 1px solid rgba(103, 232, 249, 0.18) !important;
+    background-color: #050505 !important;
+    border: 1px solid rgba(167, 243, 208, 0.14) !important;
     border-radius: 8px !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.34) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.42) !important;
     padding: 1.15rem !important;
 }
 .pt-analysis-section, .pt-examples-section {
@@ -66,14 +66,20 @@ body, .gradio-container {
     flex: 1 1 330px !important;
 }
 .pt-input-panel h3, .pt-capture-panel h3, .pt-analysis-section h3, .pt-examples-section h3 {
-    color: #f8fafc !important;
+    color: #f9fafb !important;
     margin: 0 0 0.75rem 0 !important;
 }
 
+.pt-control-title {
+    margin-top: 0.9rem !important;
+    margin-bottom: 0.35rem !important;
+    color: #bbf7d0 !important;
+}
+
 #pt-question-input textarea, .pt-log-box textarea {
-    background-color: #08101d !important;
+    background-color: #010101 !important;
     color: #f8fafc !important;
-    border: 1px solid rgba(103, 232, 249, 0.22) !important;
+    border: 1px solid rgba(167, 243, 208, 0.22) !important;
     border-radius: 8px !important;
     line-height: 1.5 !important;
 }
@@ -82,8 +88,8 @@ body, .gradio-container {
     overflow: hidden !important;
 }
 .pt-run-btn {
-    background: linear-gradient(135deg, #22c55e 0%, #14b8a6 100%) !important;
-    color: #04111a !important;
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
+    color: #04110d !important;
     border: none !important;
     border-radius: 8px !important;
     font-weight: 750 !important;
@@ -91,6 +97,9 @@ body, .gradio-container {
 }
 .pt-run-btn:hover {
     opacity: 0.9 !important;
+}
+.pt-teach-btn {
+    margin-top: 0.35rem !important;
 }
 
 .pt-output-card {
@@ -104,7 +113,7 @@ body, .gradio-container {
     min-width: 0 !important;
 }
 .pt-output-card textarea {
-    background-color: #08101d !important;
+    background-color: #010101 !important;
     color: #f8fafc !important;
     border-radius: 8px !important;
     font-size: 0.98rem !important;
@@ -112,7 +121,7 @@ body, .gradio-container {
     padding: 0.85rem !important;
     overflow-wrap: anywhere !important;
 }
-.pt-problem-card textarea { border: 1px solid rgba(103, 232, 249, 0.48) !important; }
+.pt-problem-card textarea { border: 1px solid rgba(134, 239, 172, 0.48) !important; }
 .pt-knowns-card textarea { border: 1px solid rgba(250, 204, 21, 0.48) !important; }
 .pt-strategy-card textarea { border: 1px solid rgba(96, 165, 250, 0.48) !important; }
 .pt-steps-card textarea { border: 1px solid rgba(167, 139, 250, 0.48) !important; }
@@ -122,8 +131,8 @@ body, .gradio-container {
 
 .pt-example-card {
     flex: 1 1 245px !important;
-    background-color: #08101d !important;
-    border: 1px solid rgba(148, 163, 184, 0.18) !important;
+    background-color: #010101 !important;
+    border: 1px solid rgba(167, 243, 208, 0.12) !important;
     border-radius: 8px !important;
     padding: 0.85rem !important;
 }
@@ -136,15 +145,15 @@ body, .gradio-container {
     display: flex;
     justify-content: space-between;
     gap: 0.8rem;
-    color: #cffafe;
+    color: #ecfccb;
     font-weight: 700;
 }
 .pt-example-head strong {
-    color: #fbbf24;
+    color: #86efac;
     white-space: nowrap;
 }
 .pt-example-copy p {
-    color: #dbeafe;
+    color: #d1fae5;
     margin: 0;
     line-height: 1.45;
 }
@@ -154,6 +163,6 @@ body, .gradio-container {
 #pt-links {
     text-align: center;
     margin-top: 1rem;
-    color: #99f6e4 !important;
+    color: #bbf7d0 !important;
 }
 """

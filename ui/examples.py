@@ -65,6 +65,30 @@ EXAMPLE_CARDS = [
         "mode": "Hint only",
         "text": "My child says 9 minus 4 equals 6. I want help giving a calm hint instead of just correcting them.",
     },
+    {
+        "title": "Equation Steps",
+        "grade": "High school",
+        "mode": "Coach me",
+        "text": "Can you show me how to solve 3(2x - 5) = 21 without jumping straight to the answer?",
+    },
+    {
+        "title": "Lab Result",
+        "grade": "College",
+        "mode": "Step-by-step",
+        "text": "My chemistry lab data has weird outliers. How do I explain what might be happening without sounding vague?",
+    },
+    {
+        "title": "History Claim",
+        "grade": "Middle school",
+        "mode": "Hint only",
+        "text": "The prompt asks how the setting affects the story. I know where it happens, but I do not know how to turn that into evidence.",
+    },
+    {
+        "title": "Word Problem",
+        "grade": "Elementary",
+        "mode": "Coach me",
+        "text": "There are 24 apples and 6 baskets. If the apples are shared equally, how many go in each basket?",
+    },
 ]
 
 

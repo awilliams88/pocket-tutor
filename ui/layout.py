@@ -10,9 +10,9 @@ from ui.examples import render_examples
 
 
 def get_theme() -> Any:
-    """Returns the custom soft theme configured for a deeper tutoring palette."""
-    # Pair the CSS with a calm tutoring palette.
-    return Soft(primary_hue="teal", secondary_hue="amber", neutral_hue="zinc")
+    """Returns the custom soft theme configured for a blackboard tutoring palette."""
+    # Pair the CSS with a warm classroom palette.
+    return Soft(primary_hue="teal", secondary_hue="amber", neutral_hue="gray")
 
 
 def create_app() -> gr.Blocks:
@@ -35,6 +35,7 @@ def create_app() -> gr.Blocks:
                     placeholder="Type the problem, the line that confused you, or what you already tried.",
                     elem_id="pt-question-input",
                 )
+                gr.Markdown("### Teaching Controls", elem_classes=["pt-control-title"])
                 with gr.Row(elem_classes=["pt-control-row"]):
                     grade_input = gr.Dropdown(
                         ["Elementary", "Middle school", "High school", "College"],
@@ -48,6 +49,11 @@ def create_app() -> gr.Blocks:
                         label="Help mode",
                         elem_classes=["pt-mode-input"],
                     )
+                run_button = gr.Button(
+                    "Teach",
+                    variant="primary",
+                    elem_classes=["pt-run-btn", "pt-teach-btn"],
+                )
 
             # Right column handles capture inputs and the submit action.
             with gr.Column(scale=1, elem_classes=["pt-capture-panel"]):
@@ -63,11 +69,6 @@ def create_app() -> gr.Blocks:
                     sources=["microphone", "upload"],
                     type="filepath",
                     elem_classes=["pt-audio-input"],
-                )
-                run_button = gr.Button(
-                    "Tutor This",
-                    variant="primary",
-                    elem_classes=["pt-run-btn"],
                 )
 
         with gr.Column(elem_classes=["pt-analysis-section"]):
