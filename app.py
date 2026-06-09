@@ -52,7 +52,13 @@ class _SuppressKnownTransformersNoise(logging.Filter):
 
 
 _transformers_noise_filter = _SuppressKnownTransformersNoise()
-for logger_name in ("", "transformers", "transformers.generation", "transformers.models.whisper", "transformers.models.qwen3_5"):
+for logger_name in (
+    "",
+    "transformers",
+    "transformers.generation",
+    "transformers.models.whisper",
+    "transformers.models.qwen3_5",
+):
     logging.getLogger(logger_name).addFilter(_transformers_noise_filter)
 
 for logger_name in (

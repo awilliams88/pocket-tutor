@@ -107,8 +107,8 @@ def run_tutor_inference(prompt: str, image_path: str | None) -> tuple[str, str]:
         return response, "\n".join(log_lines)
     except Exception as exc:
         log_lines.append(f"Local model execution failed: {exc}")
-        log_lines.append("Returning a deterministic tutoring scaffold.")
-        return _fallback_tutoring_response(prompt), "\n".join(log_lines)
+        log_lines.append("Returning a model-unavailable tutoring scaffold.")
+        return _model_unavailable_response(prompt), "\n".join(log_lines)
 
 
 def _run_model_inference(prompt: str, image_path: str | None) -> tuple[str, str]:
@@ -169,8 +169,8 @@ def _run_model_inference(prompt: str, image_path: str | None) -> tuple[str, str]
         return "", "\n".join(log_lines)
 
 
-def _fallback_tutoring_response(prompt: str) -> str:
-    """Returns a stable tutor-shaped response when local weights are unavailable."""
+def _model_unavailable_response(prompt: str) -> str:
+    """Returns a tutor-shaped error state when local weights are unavailable."""
     return (
         "=== PROBLEM READ ===\n"
         "I can help, but the local model is still loading or unavailable. I will treat your typed question as the source.\n\n"

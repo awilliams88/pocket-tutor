@@ -89,6 +89,18 @@ EXAMPLE_CARDS = [
         "mode": "Coach me",
         "text": "There are 24 apples and 6 baskets. If the apples are shared equally, how many go in each basket?",
     },
+    {
+        "title": "Ratio Reasoning",
+        "grade": "Middle school",
+        "mode": "Step-by-step",
+        "text": "A map uses a scale of 1 inch to 5 miles. If two towns are 3.5 inches apart on the map, how far apart are they in real life?",
+    },
+    {
+        "title": "Poem Tone",
+        "grade": "High school",
+        "mode": "Hint only",
+        "text": "The poem uses dark weather and broken glass imagery. How do I explain the tone without sounding too dramatic?",
+    },
 ]
 
 
@@ -116,12 +128,12 @@ def render_examples(
     image_input: gr.Image,
     question_input: gr.Textbox,
     audio_input: gr.Audio,
-    grade_input: gr.Dropdown,
+    grade_input: gr.Radio,
     mode_input: gr.Radio,
 ) -> gr.Column:
     """Renders examples and wires card buttons to the tutor form."""
     with gr.Column(elem_classes=["pt-examples-section"]) as section:
-        gr.Markdown("## Try a Homework Scenario")
+        gr.Markdown("## Example Situations")
         with gr.Row(elem_classes=["pt-example-grid"]):
             for example in EXAMPLE_CARDS:
                 with gr.Column(elem_classes=["pt-example-card"]):

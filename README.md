@@ -39,7 +39,7 @@ steps, a quality check, the next hint, and a parent support note.
 The app does not call an external answer API. Text-only and image-based
 questions both route through the same multimodal model. If local model execution
 is still loading or unavailable, it returns a deterministic tutoring scaffold
-instead of silently failing.
+as an explicit error state instead of silently failing.
 
 ## Hackathon Alignment
 

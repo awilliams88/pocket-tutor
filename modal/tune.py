@@ -15,7 +15,8 @@ image = (
     modal_any.Image.debian_slim()
     .pip_install(
         "torch",
-        "transformers>=4.45.0",
+        "torchvision",
+        "transformers[torch]>=5.7.0",
         "peft",
         "trl",
         "accelerate",
@@ -33,8 +34,8 @@ image = (
 # Volume keeps checkpoints available across Modal runs.
 volume = modal_any.Volume.from_name("pocket-tutor-checkpoints", create_if_missing=True)
 
-# Base model remains under the hackathon parameter limit.
-MODEL_ID = "openbmb/MiniCPM3-4B"
+# Base model matches the production Space runtime.
+MODEL_ID = "openbmb/MiniCPM-V-4.6"
 ADAPTER_REPO_ID = "build-small-hackathon/pocket-tutor-minicpmv-socratic"
 
 
@@ -59,7 +60,11 @@ def train_lora(
     from datasets import Dataset
     from huggingface_hub import login, upload_file
     from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-    from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+    from transformers import (
+        AutoModelForImageTextToText,
+        AutoProcessor,
+        BitsAndBytesConfig,
+    )
     from trl import SFTConfig, SFTTrainer
 
     from dataset import (
@@ -68,9 +73,12 @@ def train_lora(
         get_training_examples,
     )
 
-    # Load tokenizer and prepare app-format conversations.
-    print(f"Loading tokenizer for {MODEL_ID}...")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
+    # Load processor and prepare app-format conversations.
+    print(f"Loading processor for {MODEL_ID}...")
+    processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
+    tokenizer = getattr(processor, "tokenizer", None)
+    if tokenizer is None:
+        raise RuntimeError("MiniCPM-V processor did not expose a tokenizer.")
     formatted_dataset = []
     for item in get_training_examples():
         messages = [
@@ -85,11 +93,23 @@ def train_lora(
             {"role": "assistant", "content": str(item["response"])},
         ]
         formatted_dataset.append(
-            {"text": tokenizer.apply_chat_template(messages, tokenize=False)}
+            {
+                "text": processor.apply_chat_template(
+                    messages,
+                    tokenize=False,
+                    enable_thinking=False,
+                )
+            }
         )
     for messages in get_chat_training_examples():
         formatted_dataset.append(
-            {"text": tokenizer.apply_chat_template(messages, tokenize=False)}
+            {
+                "text": processor.apply_chat_template(
+                    messages,
+                    tokenize=False,
+                    enable_thinking=False,
+                )
+            }
         )
     dataset = Dataset.from_list(formatted_dataset)
     print(f"Prepared {len(dataset)} tutoring conversations.")
@@ -101,7 +121,7 @@ def train_lora(
         bnb_4bit_compute_dtype=torch.bfloat16,
         bnb_4bit_use_double_quant=True,
     )
-    model = AutoModelForCausalLM.from_pretrained(
+    model = AutoModelForImageTextToText.from_pretrained(
         MODEL_ID,
         quantization_config=bnb_config,
         device_map="auto",
@@ -144,7 +164,7 @@ def train_lora(
 
     # Save the final adapter into the persistent Modal volume.
     model.save_pretrained("/checkpoints/pocket-tutor-final")
-    tokenizer.save_pretrained("/checkpoints/pocket-tutor-final")
+    processor.save_pretrained("/checkpoints/pocket-tutor-final")
     volume.commit()
 
     # Publish the adapter and model card when credentials are available.
@@ -153,7 +173,7 @@ def train_lora(
     if hf_token:
         login(token=hf_token)
         model.push_to_hub(repo_id)
-        tokenizer.push_to_hub(repo_id)
+        processor.push_to_hub(repo_id)
         upload_file(
             path_or_fileobj=io.BytesIO(model_card_content.encode("utf-8")),
             path_in_repo="README.md",

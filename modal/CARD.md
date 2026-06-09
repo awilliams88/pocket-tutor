@@ -1,7 +1,7 @@
 ---
-base_model: openbmb/MiniCPM3-4B
+base_model: openbmb/MiniCPM-V-4.6
 library_name: peft
-pipeline_tag: text-generation
+pipeline_tag: image-text-to-text
 language:
 - en
 tags:
@@ -17,9 +17,9 @@ tags:
 # Pocket Tutor Socratic LoRA
 
 Pocket Tutor Socratic LoRA is a QLoRA adapter trained for the Pocket Tutor
-Space. The production app uses OpenBMB vision-language input when available and
-falls back to this compact MiniCPM text adapter for typed or transcribed
-homework questions.
+Space. The production app uses OpenBMB MiniCPM-V-4.6 for typed questions,
+worksheet images, and transcribed microphone input through one dedicated
+vision-language runtime.
 
 ## Intended Use
 
@@ -44,12 +44,12 @@ The adapter is trained on the current production UI format:
 
 ## Training Recipe
 
-- Base model: `openbmb/MiniCPM3-4B`
+- Base model: `openbmb/MiniCPM-V-4.6`
 - Method: QLoRA with 4-bit NF4 quantization
 - Hardware: Modal NVIDIA A10G
 - Training data: synthetic app-format tutoring examples and short follow-up turns
 - Sequence length: 1536 tokens
-- Runtime pairing: OpenBMB MiniCPM-V for image context plus adapter-backed text tutoring
+- Runtime pairing: the same MiniCPM-V base model used by the Pocket Tutor Space
 
 ## Limitations
 

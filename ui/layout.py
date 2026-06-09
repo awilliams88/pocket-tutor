@@ -11,8 +11,8 @@ from ui.examples import render_examples
 
 def get_theme() -> Any:
     """Returns the custom soft theme configured for a blackboard tutoring palette."""
-    # Pair the CSS with a warm classroom palette.
-    return Soft(primary_hue="teal", secondary_hue="amber", neutral_hue="gray")
+    # Pair the CSS with a teal classroom palette.
+    return Soft(primary_hue="teal", secondary_hue="amber", neutral_hue="zinc")
 
 
 def create_app() -> gr.Blocks:
@@ -26,38 +26,14 @@ def create_app() -> gr.Blocks:
         )
 
         with gr.Row(elem_classes=["pt-main-grid"]):
-            # Left column collects the learner prompt and academic settings.
-            with gr.Column(scale=2, elem_classes=["pt-input-panel"]):
-                gr.Markdown("## Homework Input")
+            with gr.Column(scale=1, elem_classes=["pt-input-panel"]):
+                gr.Markdown("## Question and Inputs")
                 question_input = gr.Textbox(
                     label="What should we work on?",
-                    lines=7,
-                    placeholder="Type the problem, the line that confused you, or what you already tried.",
+                    lines=8,
+                    placeholder="Type the problem, paste the confusing line, or explain what you already tried.",
                     elem_id="pt-question-input",
                 )
-                gr.Markdown("### Teaching Controls", elem_classes=["pt-control-title"])
-                with gr.Row(elem_classes=["pt-control-row"]):
-                    grade_input = gr.Dropdown(
-                        ["Elementary", "Middle school", "High school", "College"],
-                        value="Middle school",
-                        label="Grade band",
-                        elem_classes=["pt-grade-input"],
-                    )
-                    mode_input = gr.Radio(
-                        ["Coach me", "Hint only", "Step-by-step"],
-                        value="Coach me",
-                        label="Help mode",
-                        elem_classes=["pt-mode-input"],
-                    )
-                run_button = gr.Button(
-                    "Teach",
-                    variant="primary",
-                    elem_classes=["pt-run-btn", "pt-teach-btn"],
-                )
-
-            # Right column handles capture inputs and the submit action.
-            with gr.Column(scale=1, elem_classes=["pt-capture-panel"]):
-                gr.Markdown("## Media Capture")
                 image_input = gr.Image(
                     label="Upload or capture a worksheet/photo",
                     type="filepath",
@@ -70,53 +46,73 @@ def create_app() -> gr.Blocks:
                     type="filepath",
                     elem_classes=["pt-audio-input"],
                 )
-
-        with gr.Column(elem_classes=["pt-analysis-section"]):
-            gr.Markdown("## Tutoring Plan")
-            with gr.Row(elem_classes=["pt-plan-grid"]):
-                problem_output = gr.Textbox(
-                    label="Problem Read",
-                    lines=4,
-                    interactive=False,
-                    elem_classes=["pt-output-card", "pt-problem-card"],
-                )
-                knowns_output = gr.Textbox(
-                    label="Knowns",
-                    lines=4,
-                    interactive=False,
-                    elem_classes=["pt-output-card", "pt-knowns-card"],
-                )
-                strategy_output = gr.Textbox(
-                    label="Strategy",
-                    lines=5,
-                    interactive=False,
-                    elem_classes=["pt-output-card", "pt-strategy-card"],
+                run_button = gr.Button(
+                    "Teach",
+                    variant="primary",
+                    elem_classes=["pt-run-btn", "pt-teach-btn"],
                 )
 
+            with gr.Column(scale=1, elem_classes=["pt-capture-panel"]):
+                gr.Markdown("## Teaching Controls")
+                with gr.Column(elem_classes=["pt-control-stack"]):
+                    with gr.Column(elem_classes=["pt-control-card"]):
+                        gr.Markdown("### Grade band")
+                        grade_input = gr.Radio(
+                            ["Elementary", "Middle school", "High school", "College"],
+                            value="Middle school",
+                            label="Pick the learner level",
+                            elem_id="pt-grade-control",
+                            elem_classes=["pt-grade-input"],
+                        )
+                    with gr.Column(elem_classes=["pt-control-card"]):
+                        gr.Markdown("### Help mode")
+                        mode_input = gr.Radio(
+                            ["Coach me", "Hint only", "Step-by-step"],
+                            value="Coach me",
+                            label="Choose the help style",
+                            elem_id="pt-mode-control",
+                            elem_classes=["pt-mode-input"],
+                        )
+                with gr.Column(elem_classes=["pt-analysis-section"]):
+                    gr.Markdown("## Tutoring Plan")
+                    with gr.Row(elem_classes=["pt-plan-grid"]):
+                        problem_output = gr.Textbox(
+                            label="Problem Read",
+                            interactive=False,
+                            elem_classes=["pt-output-card", "pt-problem-card"],
+                        )
+                        knowns_output = gr.Textbox(
+                            label="Knowns",
+                            interactive=False,
+                            elem_classes=["pt-output-card", "pt-knowns-card"],
+                        )
+                        strategy_output = gr.Textbox(
+                            label="Strategy",
+                            interactive=False,
+                            elem_classes=["pt-output-card", "pt-strategy-card"],
+                        )
+
+        with gr.Column(elem_classes=["pt-workbench-section"]):
             gr.Markdown("## Workbench")
             with gr.Row(elem_classes=["pt-workbench-grid"]):
                 steps_output = gr.Textbox(
                     label="Worked Steps",
-                    lines=7,
                     interactive=False,
                     elem_classes=["pt-output-card", "pt-steps-card"],
                 )
                 check_output = gr.Textbox(
                     label="Check",
-                    lines=7,
                     interactive=False,
                     elem_classes=["pt-output-card", "pt-check-card"],
                 )
             with gr.Row(elem_classes=["pt-workbench-grid"]):
                 hint_output = gr.Textbox(
                     label="Next Hint",
-                    lines=5,
                     interactive=False,
                     elem_classes=["pt-output-card", "pt-hint-card"],
                 )
                 parent_output = gr.Textbox(
                     label="Parent Note",
-                    lines=5,
                     interactive=False,
                     elem_classes=["pt-output-card", "pt-parent-card"],
                 )

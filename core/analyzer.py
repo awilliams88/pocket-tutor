@@ -120,7 +120,7 @@ def analyze_homework(
     response, inference_log = run_tutor_inference(prompt, image_path)
     sections = parse_sections(response)
 
-    # Keep diagnostics clear but never hide whether fallback logic ran.
+    # Keep diagnostics clear but never hide a model-unavailable path.
     model_path = "\n".join(
         [
             f"Primary model: {MODEL_ID}",

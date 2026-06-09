@@ -103,6 +103,36 @@ def get_training_examples() -> list[dict[str, str]]:
             "question": "I need to interpret a p-value of 0.03 for a two-sided test at alpha 0.05.",
             "response": "=== PROBLEM READ ===\nYou need to decide whether the test result is statistically significant and explain the meaning carefully.\n\n=== KNOWNS ===\n- p-value = 0.03\n- alpha = 0.05\n- two-sided test\n\n=== STRATEGY ===\nCompare the p-value with alpha. Then describe evidence against the null hypothesis without saying the null is proven false.\n\n=== WORKED STEPS ===\nBecause 0.03 is less than 0.05, the result is statistically significant at the 5% level. You reject the null hypothesis for this test.\n\n=== CHECK ===\nDo not say there is a 3% chance the null hypothesis is true. The p-value is about the probability of data this extreme if the null were true.\n\n=== NEXT HINT ===\nWhat is the null hypothesis in your specific problem?\n\n=== PARENT NOTE ===\nFor older learners, ask them to separate the decision rule from the real-world conclusion.",
         },
+        {
+            "grade": "Elementary",
+            "mode": "Hint only",
+            "question": "My audio question says: Lily read 14 pages on Monday and 9 pages on Tuesday. How many pages did she read altogether?",
+            "response": "=== PROBLEM READ ===\nThe question asks for the total number of pages Lily read across two days.\n\n=== KNOWNS ===\n- Monday pages = 14\n- Tuesday pages = 9\n- The word altogether means combine the amounts\n\n=== STRATEGY ===\nUse addition because the problem asks for a combined total.\n\n=== WORKED STEPS ===\nSet up 14 + 9. Add 10 first if it helps, then take 1 away because 9 is one less than 10.\n\n=== CHECK ===\nThe answer should be more than 14 because Tuesday adds more pages.\n\n=== NEXT HINT ===\nWhat is 14 + 10, and what happens if you subtract 1 after that?\n\n=== PARENT NOTE ===\nAsk the learner to explain why 'altogether' points to addition.",
+        },
+        {
+            "grade": "Middle school",
+            "mode": "Step-by-step",
+            "question": "A map uses a scale of 1 inch to 5 miles. If two towns are 3.5 inches apart on the map, how far apart are they in real life?",
+            "response": "=== PROBLEM READ ===\nYou need to convert a map distance into a real distance using the scale.\n\n=== KNOWNS ===\n- 1 inch represents 5 miles\n- Map distance is 3.5 inches\n\n=== STRATEGY ===\nMultiply the number of inches by the miles represented by each inch.\n\n=== WORKED STEPS ===\n1. Write the scale: 1 inch = 5 miles.\n2. Multiply: 3.5 x 5 = 17.5.\n3. Attach the unit: 17.5 miles.\n\n=== CHECK ===\nSince 3.5 inches is more than 3 inches, the real distance should be more than 15 miles. 17.5 miles fits.\n\n=== NEXT HINT ===\nHow many miles would 3 inches represent before adding the extra half inch?\n\n=== PARENT NOTE ===\nHave the learner make a small table for 1 inch, 2 inches, 3 inches, and 3.5 inches.",
+        },
+        {
+            "grade": "High school",
+            "mode": "Coach me",
+            "question": "The poem uses dark weather and broken glass imagery. How do I explain the tone without sounding too dramatic?",
+            "response": "=== PROBLEM READ ===\nYou need to connect imagery to tone in a balanced literary explanation.\n\n=== KNOWNS ===\n- Imagery includes dark weather\n- Imagery includes broken glass\n- The goal is to describe tone with evidence\n\n=== STRATEGY ===\nChoose a precise tone word, then explain how each image supports that tone without exaggerating.\n\n=== WORKED STEPS ===\nA measured answer could say: The tone is tense and unsettled because the dark weather creates a heavy mood, while the broken glass suggests damage or danger. Together, the images make the scene feel unstable rather than peaceful.\n\n=== CHECK ===\nThe explanation names the tone, cites the images, and explains their effect instead of only saying the poem is sad.\n\n=== NEXT HINT ===\nWhich tone word feels more accurate: tense, hopeless, angry, or reflective?\n\n=== PARENT NOTE ===\nAsk the learner to pick one tone word and underline the image that best proves it.",
+        },
+        {
+            "grade": "High school",
+            "mode": "Step-by-step",
+            "question": "In the uploaded worksheet image, the cell diagram labels are hard to read, but I can see mitochondria and chloroplasts. How are they different?",
+            "response": "=== PROBLEM READ ===\nThe question asks you to compare two cell organelles while acknowledging that the image labels are unclear.\n\n=== KNOWNS ===\n- Mitochondria are visible\n- Chloroplasts are visible\n- The image labels may be hard to read\n\n=== STRATEGY ===\nCompare their jobs, where they are found, and the energy process each supports.\n\n=== WORKED STEPS ===\n1. Mitochondria release usable energy from food during cellular respiration.\n2. Chloroplasts capture light energy during photosynthesis.\n3. Mitochondria are in plant and animal cells, while chloroplasts are mainly in plant cells and algae.\n\n=== CHECK ===\nIf the answer mentions respiration for mitochondria and photosynthesis for chloroplasts, the key difference is covered.\n\n=== NEXT HINT ===\nWhich organelle needs light to do its main job?\n\n=== PARENT NOTE ===\nAsk the learner to make a two-column comparison chart instead of memorizing a sentence.",
+        },
+        {
+            "grade": "College",
+            "mode": "Hint only",
+            "question": "For calculus, I need the derivative of f(x)=x^2 sin x, but I keep forgetting which rule applies.",
+            "response": "=== PROBLEM READ ===\nYou need to differentiate a product of two functions.\n\n=== KNOWNS ===\n- First factor: x^2\n- Second factor: sin x\n- The expression is multiplication, not composition\n\n=== STRATEGY ===\nUse the product rule because two functions are multiplied together.\n\n=== WORKED STEPS ===\nStart with (uv)' = u'v + uv'. Let u = x^2 and v = sin x. Your next move is to find u' and v'.\n\n=== CHECK ===\nThe product rule should keep two terms; do not just multiply the two derivatives together.\n\n=== NEXT HINT ===\nWhat is the derivative of x^2, and what is the derivative of sin x?\n\n=== PARENT NOTE ===\nFor advanced learners, ask them to name the rule before doing any algebra.",
+        },
     ]
 
 

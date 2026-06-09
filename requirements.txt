@@ -1,6 +1,6 @@
 gradio==6.17.3
 ruff==0.15.16
-transformers>=4.45.0
+transformers[torch]>=5.7.0
 torch
 torchvision
 accelerate
@@ -9,3 +9,4 @@ sentencepiece
 pillow
 pyright
 modal
+spaces
