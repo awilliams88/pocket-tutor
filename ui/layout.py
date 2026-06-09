@@ -21,7 +21,7 @@ def create_app() -> gr.Blocks:
         # Header gives the product promise without a marketing page.
         gr.Markdown(f"# {APP_TITLE}\n{APP_DESCRIPTION}", elem_id="pt-header")
         gr.Markdown(
-            "Snap a worksheet, ask by voice, or type the confusing line. The tutor explains the next useful step.",
+            "Point at the problem. Ask naturally. Learn the next step.",
             elem_id="pt-kicker",
         )
 
@@ -46,11 +46,6 @@ def create_app() -> gr.Blocks:
                     type="filepath",
                     elem_classes=["pt-audio-input"],
                 )
-                run_button = gr.Button(
-                    "Teach",
-                    variant="primary",
-                    elem_classes=["pt-run-btn", "pt-teach-btn"],
-                )
 
             with gr.Column(scale=1, elem_classes=["pt-capture-panel"]):
                 gr.Markdown("## Teaching Controls")
@@ -73,49 +68,55 @@ def create_app() -> gr.Blocks:
                             elem_id="pt-mode-control",
                             elem_classes=["pt-mode-input"],
                         )
-                with gr.Column(elem_classes=["pt-analysis-section"]):
-                    gr.Markdown("## Tutoring Plan")
-                    with gr.Row(elem_classes=["pt-plan-grid"]):
-                        problem_output = gr.Textbox(
-                            label="Problem Read",
-                            interactive=False,
-                            elem_classes=["pt-output-card", "pt-problem-card"],
-                        )
-                        knowns_output = gr.Textbox(
-                            label="Knowns",
-                            interactive=False,
-                            elem_classes=["pt-output-card", "pt-knowns-card"],
-                        )
-                        strategy_output = gr.Textbox(
-                            label="Strategy",
-                            interactive=False,
-                            elem_classes=["pt-output-card", "pt-strategy-card"],
-                        )
+                    run_button = gr.Button(
+                        "Teach Me",
+                        variant="primary",
+                        min_width=0,
+                        elem_classes=["pt-run-btn", "pt-teach-btn"],
+                    )
 
-        with gr.Column(elem_classes=["pt-workbench-section"]):
-            gr.Markdown("## Workbench")
-            with gr.Row(elem_classes=["pt-workbench-grid"]):
-                steps_output = gr.Textbox(
-                    label="Worked Steps",
-                    interactive=False,
-                    elem_classes=["pt-output-card", "pt-steps-card"],
-                )
-                check_output = gr.Textbox(
-                    label="Check",
-                    interactive=False,
-                    elem_classes=["pt-output-card", "pt-check-card"],
-                )
-            with gr.Row(elem_classes=["pt-workbench-grid"]):
-                hint_output = gr.Textbox(
-                    label="Next Hint",
-                    interactive=False,
-                    elem_classes=["pt-output-card", "pt-hint-card"],
-                )
-                parent_output = gr.Textbox(
-                    label="Parent Note",
-                    interactive=False,
-                    elem_classes=["pt-output-card", "pt-parent-card"],
-                )
+        with gr.Column(elem_classes=["pt-results-section"]):
+            with gr.Column(elem_classes=["pt-analysis-section"]):
+                gr.Markdown("## Tutoring Plan")
+                with gr.Row(elem_classes=["pt-plan-grid"]):
+                    problem_output = gr.Textbox(
+                        label="Problem Read",
+                        interactive=False,
+                        elem_classes=["pt-output-card", "pt-problem-card"],
+                    )
+                    knowns_output = gr.Textbox(
+                        label="Knowns",
+                        interactive=False,
+                        elem_classes=["pt-output-card", "pt-knowns-card"],
+                    )
+                    strategy_output = gr.Textbox(
+                        label="Strategy",
+                        interactive=False,
+                        elem_classes=["pt-output-card", "pt-strategy-card"],
+                    )
+                gr.Markdown("## Workbench")
+                with gr.Row(elem_classes=["pt-workbench-grid"]):
+                    steps_output = gr.Textbox(
+                        label="Worked Steps",
+                        interactive=False,
+                        elem_classes=["pt-output-card", "pt-steps-card"],
+                    )
+                    check_output = gr.Textbox(
+                        label="Check",
+                        interactive=False,
+                        elem_classes=["pt-output-card", "pt-check-card"],
+                    )
+                with gr.Row(elem_classes=["pt-workbench-grid"]):
+                    hint_output = gr.Textbox(
+                        label="Next Hint",
+                        interactive=False,
+                        elem_classes=["pt-output-card", "pt-hint-card"],
+                    )
+                    parent_output = gr.Textbox(
+                        label="Parent Note",
+                        interactive=False,
+                        elem_classes=["pt-output-card", "pt-parent-card"],
+                    )
 
         render_examples(
             image_input,
@@ -185,6 +186,7 @@ def create_app() -> gr.Blocks:
                 hint_output,
                 parent_output,
             ],
+            api_name="analyze_homework_ui",
         )
 
     return demo

@@ -69,6 +69,13 @@ Image status: {image_status}
 
 Return exactly these sections:
 
+Important:
+- Output all seven sections every time, in the exact order below.
+- Keep each section concise, but do not omit any section.
+- Do not stop after WORKED STEPS. You must also fill CHECK, NEXT HINT, and PARENT NOTE.
+- The final section must always be PARENT NOTE and must be a complete single sentence.
+- If the answer is partial, say so inside WORKED STEPS and continue to the later sections.
+
 === PROBLEM READ ===
 [Briefly restate what the learner is asking.]
 
@@ -88,7 +95,7 @@ Return exactly these sections:
 [Ask one short follow-up question or give the smallest next hint.]
 
 === PARENT NOTE ===
-[One sentence a parent/tutor can use to support the learner.]
+[One complete sentence a parent/tutor can use to support the learner.]
 
 Learner question:
 {combined_question[:QUESTION_LIMIT] or "The learner uploaded an image and did not type a question."}

@@ -60,15 +60,18 @@ body {
 }
 
 #pt-kicker {
-    background: rgba(14, 165, 233, 0.10) !important;
-    color: #e0f2fe !important;
-    border: 1px solid rgba(103, 232, 249, 0.22) !important;
-    border-radius: 10px !important;
-    margin: 0 auto 1.35rem auto;
-    max-width: 92%;
-    padding: 0.72rem 1.6rem !important;
-    text-align: center;
     width: fit-content;
+    max-width: 90%;
+    margin: 0 auto 2rem auto;
+    padding: 0.75rem 2.25rem !important;
+    background: transparent !important;
+    border: 2px solid oklch(70.4% 0.14 182.503) !important;
+    box-shadow: none !important;
+    text-align: center;
+    color: #c7d2fe !important;
+    font-size: 1.1rem !important;
+    line-height: 1.6 !important;
+    border-radius: 40px !important;
 }
 
 /* Main layout */
@@ -172,6 +175,18 @@ body {
 .pt-control-card h3 {
     color: #f8fafc !important;
     margin: 0 0 0.65rem 0 !important;
+}
+
+.pt-teach-btn {
+    align-self: center !important;
+    margin-top: 0.35rem !important;
+    width: fit-content !important;
+}
+
+.pt-teach-btn button {
+    min-width: 0 !important;
+    padding: 0.78rem 1.35rem !important;
+    width: fit-content !important;
 }
 
 /* Grade radio */
@@ -280,13 +295,17 @@ fieldset#pt-mode-control span[data-testid="block-info"] {
     color: #f8fafc !important;
 }
 
-/* Tutoring plan */
+/* Results */
+.pt-results-section {
+    margin-top: 1rem !important;
+    width: 100% !important;
+}
+
 .pt-analysis-section {
     background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(12, 18, 35, 0.92) 100%) !important;
     border: 1px solid rgba(96, 165, 250, 0.18) !important;
     border-radius: 10px !important;
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.42) !important;
-    margin-top: 1rem !important;
     padding: 1.15rem !important;
     width: 100% !important;
 }
@@ -297,27 +316,29 @@ fieldset#pt-mode-control span[data-testid="block-info"] {
 }
 
 .pt-plan-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)) !important;
     gap: 1rem !important;
+    align-items: stretch !important;
 }
 
-/* Workbench */
-.pt-workbench-section {
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(12, 18, 35, 0.92) 100%) !important;
-    border: 1px solid rgba(96, 165, 250, 0.18) !important;
-    border-radius: 10px !important;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.42) !important;
-    margin-top: 1rem !important;
-    padding: 1.15rem !important;
-    width: 100% !important;
-}
-
-.pt-workbench-section h3 {
-    color: #f8fafc !important;
-    margin: 0 0 0.75rem 0 !important;
+.pt-plan-grid > .form,
+.pt-plan-grid > .block,
+.pt-plan-grid > div,
+.pt-workbench-grid > .form,
+.pt-workbench-grid > .block,
+.pt-workbench-grid > div {
+    align-self: stretch !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    width: auto !important;
 }
 
 .pt-workbench-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)) !important;
     gap: 1rem !important;
+    align-items: stretch !important;
 }
 
 /* Output text boxes */
@@ -348,11 +369,15 @@ fieldset#pt-mode-control span[data-testid="block-info"] {
 .pt-output-card .generating {
     background: rgba(30, 41, 59, 0.88) !important;
     color: #ccfbf1 !important;
+    border: 1px solid rgba(94, 234, 212, 0.24) !important;
+    border-radius: 10px !important;
 }
 
 .pt-output-card [class*="progress"] {
     background: rgba(30, 41, 59, 0.88) !important;
     color: #ccfbf1 !important;
+    border: 1px solid rgba(94, 234, 212, 0.24) !important;
+    border-radius: 10px !important;
 }
 
 .pt-output-card:has(.generating) {

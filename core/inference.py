@@ -111,6 +111,26 @@ def run_tutor_inference(prompt: str, image_path: str | None) -> tuple[str, str]:
         return _model_unavailable_response(prompt), "\n".join(log_lines)
 
 
+def run_tutor_inference_debug(
+    prompt: str, image_path: str | None, max_new_tokens: int = 384
+) -> tuple[str, str, str]:
+    """Returns the raw model response, cleaned response, and execution logs."""
+    log_lines: list[str] = []
+    try:
+        raw_response, cleaned_response, logs = _run_model_inference_debug(
+            prompt,
+            image_path,
+            max_new_tokens=max_new_tokens,
+        )
+        log_lines.append(logs)
+        return raw_response, cleaned_response, "\n".join(log_lines)
+    except Exception as exc:
+        log_lines.append(f"Local model execution failed: {exc}")
+        log_lines.append("Returning a model-unavailable tutoring scaffold.")
+        scaffold = _model_unavailable_response(prompt)
+        return scaffold, scaffold, "\n".join(log_lines)
+
+
 def _run_model_inference(prompt: str, image_path: str | None) -> tuple[str, str]:
     """Runs MiniCPM-V for either text-only or image-grounded tutoring."""
     global _vl_model, _vl_processor
@@ -152,7 +172,7 @@ def _run_model_inference(prompt: str, image_path: str | None) -> tuple[str, str]
             eos_token_id = getattr(processor.tokenizer, "eos_token_id", None)
             output = model.generate(
                 **inputs,
-                max_new_tokens=128,
+                max_new_tokens=384,
                 do_sample=False,
                 repetition_penalty=1.05,
                 pad_token_id=pad_token_id if pad_token_id is not None else eos_token_id,
@@ -167,6 +187,69 @@ def _run_model_inference(prompt: str, image_path: str | None) -> tuple[str, str]
     except Exception as exc:
         log_lines.append(f"Model execution failed: {exc}")
         return "", "\n".join(log_lines)
+
+
+def _run_model_inference_debug(
+    prompt: str,
+    image_path: str | None,
+    max_new_tokens: int = 384,
+) -> tuple[str, str, str]:
+    """Runs the tutor model and preserves both raw and cleaned responses."""
+    global _vl_model, _vl_processor
+    log_lines: list[str] = []
+    try:
+        import torch
+        from PIL import Image
+
+        model, processor = _load_multimodal_model(log_lines)
+        if image_path:
+            image = Image.open(image_path).convert("RGB")
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "image", "image": image},
+                        {"type": "text", "text": prompt},
+                    ],
+                }
+            ]
+        else:
+            messages = [
+                {
+                    "role": "user",
+                    "content": [{"type": "text", "text": prompt}],
+                }
+            ]
+
+        inputs = processor.apply_chat_template(
+            messages,
+            add_generation_prompt=True,
+            tokenize=True,
+            return_dict=True,
+            return_tensors="pt",
+            enable_thinking=False,
+        ).to(model.device)
+        with torch.inference_mode():
+            pad_token_id = getattr(processor.tokenizer, "pad_token_id", None)
+            eos_token_id = getattr(processor.tokenizer, "eos_token_id", None)
+            output = model.generate(
+                **inputs,
+                max_new_tokens=max_new_tokens,
+                do_sample=False,
+                repetition_penalty=1.05,
+                pad_token_id=pad_token_id if pad_token_id is not None else eos_token_id,
+                eos_token_id=eos_token_id,
+            )
+        raw_response = processor.decode(
+            output[0, inputs["input_ids"].shape[1] :],
+            skip_special_tokens=True,
+        )
+        cleaned_response = clean_generated_text(str(raw_response))
+        log_lines.append("Multimodal tutoring inference completed.")
+        return str(raw_response), cleaned_response, "\n".join(log_lines)
+    except Exception as exc:
+        log_lines.append(f"Model execution failed: {exc}")
+        return "", "", "\n".join(log_lines)
 
 
 def _model_unavailable_response(prompt: str) -> str:
