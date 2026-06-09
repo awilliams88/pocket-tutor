@@ -130,7 +130,11 @@ def create_app() -> gr.Blocks:
             elem_id="pt-links",
         )
 
-        with gr.Accordion("Diagnostics & Local Execution Logs", open=False):
+        with gr.Accordion(
+            "Diagnostics & Local Execution Logs",
+            open=False,
+            elem_classes=["pt-diagnostics-section"],
+        ):
             context_output = gr.Textbox(
                 label="Student context",
                 lines=4,
