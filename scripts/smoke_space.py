@@ -20,6 +20,10 @@ from env.config import QUESTION_LIMIT, SPACE_URL
 DEFAULT_QUESTION = "Can you show me how to solve 3(2x - 5) = 21 without jumping straight to the answer?"
 DEFAULT_GRADE = "High school"
 DEFAULT_MODE = "Step-by-step"
+DEFAULT_PROBLEM = "Upload a homework image or type the question to begin."
+DEFAULT_KNOWNS = "- No givens identified yet."
+DEFAULT_STRATEGY = "No strategy generated yet."
+DEFAULT_STEPS = "No worked steps generated yet."
 DEFAULT_CHECK = "No answer check generated yet."
 DEFAULT_HINT = "Ask for a hint after the first explanation."
 DEFAULT_PARENT = "Parent support note will appear here."
@@ -183,6 +187,10 @@ def main() -> int:
     failures = [
         label
         for label, default in (
+            ("problem", DEFAULT_PROBLEM),
+            ("knowns", DEFAULT_KNOWNS),
+            ("strategy", DEFAULT_STRATEGY),
+            ("steps", DEFAULT_STEPS),
             ("check", DEFAULT_CHECK),
             ("hint", DEFAULT_HINT),
             ("parent", DEFAULT_PARENT),

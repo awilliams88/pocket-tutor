@@ -47,9 +47,15 @@ The adapter is trained on the current production UI format:
 - Base model: `openbmb/MiniCPM-V-4.6`
 - Method: QLoRA with 4-bit NF4 quantization
 - Hardware: Modal NVIDIA A10G
-- Training data: synthetic app-format tutoring examples and short follow-up turns
+- Training data: 16 structured tutoring examples plus 7 schema-aligned follow-up turns
 - Sequence length: 1536 tokens
 - Runtime pairing: the same MiniCPM-V base model used by the Pocket Tutor Space
+
+## Validation
+
+The adapter is smoke-tested on Modal against every structured training example
+and follow-up turn. The smoke test fails if any of the seven production UI
+sections fall back to default placeholder text.
 
 ## Limitations
 
