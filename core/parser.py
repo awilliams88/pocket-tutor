@@ -9,12 +9,12 @@ from env.config import SUPPORTED_IMAGE_SUFFIXES
 # Match headings that the tutoring model is instructed to emit.
 _SECTION_MARKER_PATTERN = re.compile(
     r"(?im)^[ \t]*(?:[-*][ \t]*)?(?:#{1,6}[ \t]*)?"
-    r"(?:\*\*)?(?:={2,}[ \t]*)?"
+    r"(?:\*\*)?(?:={2,}[ \t]*)*"
     r"(?P<label>"
     r"problem read|knowns?|strategy|worked steps?|check|next hint|parent note"
     r")"
     r"\b"
-    r"(?:[ \t]*={2,})?(?:\*\*)?[ \t]*(?::|-)?[ \t]*"
+    r"(?:[ \t]*={2,})*(?:\*\*)?[ \t]*(?::|-)?[ \t]*"
     r"(?P<trailing>[^\n]*)$"
 )
 

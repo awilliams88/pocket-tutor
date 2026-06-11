@@ -31,6 +31,79 @@ ADAPTER_REPO_ID = "build-small-hackathon/pocket-tutor-minicpmv-socratic"
 DEFAULT_QUESTION = "Can you show me how to solve 3(2x - 5) = 21 without jumping straight to the answer?"
 DEFAULT_GRADE = "High school"
 DEFAULT_MODE = "Step-by-step"
+DEFAULT_MAX_NEW_TOKENS = 384
+
+
+def _build_prompt(question: str, grade_band: str, help_mode: str) -> str:
+    """Builds the exact tutoring prompt used by the production Space."""
+    from core.analyzer import build_tutor_prompt
+
+    return build_tutor_prompt(
+        question=question,
+        transcript="",
+        grade_band=grade_band,
+        help_mode=help_mode,
+        image_status="No image uploaded.",
+    )
+
+
+def _validate_sections(sections: tuple[str, str, str, str, str, str, str]) -> list[str]:
+    """Returns missing section names when the model output falls back."""
+    section_names = (
+        "problem",
+        "knowns",
+        "strategy",
+        "steps",
+        "check",
+        "hint",
+        "parent",
+    )
+    defaults = {
+        "problem": "Upload a homework image or type the question to begin.",
+        "knowns": "- No givens identified yet.",
+        "strategy": "No strategy generated yet.",
+        "steps": "No worked steps generated yet.",
+        "check": "No answer check generated yet.",
+        "hint": "Ask for a hint after the first explanation.",
+        "parent": "Parent support note will appear here.",
+    }
+    return [
+        name
+        for name, value in zip(section_names, sections, strict=True)
+        if name in defaults and str(value).strip() in {"", defaults[name]}
+    ]
+
+
+def _iter_smoke_cases() -> list[dict[str, str]]:
+    """Collects the structured training examples and follow-up chat examples."""
+    from dataset import get_chat_training_examples, get_training_examples
+
+    cases: list[dict[str, str]] = []
+    for item in get_training_examples():
+        cases.append(
+            {
+                "kind": "training",
+                "grade": str(item["grade"]),
+                "mode": str(item["mode"]),
+                "question": str(item["question"]),
+            }
+        )
+    for index, messages in enumerate(get_chat_training_examples(), start=1):
+        user_message = next(
+            (message for message in messages if message.get("role") == "user"),
+            None,
+        )
+        if not user_message:
+            continue
+        cases.append(
+            {
+                "kind": f"chat-{index}",
+                "grade": DEFAULT_GRADE,
+                "mode": DEFAULT_MODE,
+                "question": str(user_message.get("content", "")),
+            }
+        )
+    return cases
 
 
 @app.function(
@@ -39,7 +112,9 @@ DEFAULT_MODE = "Step-by-step"
     timeout=3600,
     secrets=[modal_any.Secret.from_name("huggingface-secret")],
 )
-def generate_response(prompt: str, max_new_tokens: int = 384) -> dict[str, str]:
+def generate_response(
+    prompt: str, max_new_tokens: int = DEFAULT_MAX_NEW_TOKENS
+) -> dict[str, str]:
     """Loads the production model and returns the raw generated response."""
     import torch
     from peft import PeftModel
@@ -119,31 +194,22 @@ def generate_response(prompt: str, max_new_tokens: int = 384) -> dict[str, str]:
 
 @app.local_entrypoint()
 def main() -> None:
-    """Runs the remote smoke test and validates the section contract locally."""
-    from core.analyzer import build_tutor_prompt
+    """Runs remote smoke tests across every training example."""
     from core.inference import clean_generated_text
     from core.parser import parse_sections
 
     question = os.environ.get("SMOKE_QUESTION", DEFAULT_QUESTION).strip()
     grade_band = os.environ.get("SMOKE_GRADE", DEFAULT_GRADE)
     help_mode = os.environ.get("SMOKE_MODE", DEFAULT_MODE)
-    max_new_tokens = int(os.environ.get("SMOKE_MAX_NEW_TOKENS", "384"))
-
-    prompt = build_tutor_prompt(
-        question=question,
-        transcript="",
-        grade_band=grade_band,
-        help_mode=help_mode,
-        image_status="No image uploaded.",
+    max_new_tokens = int(
+        os.environ.get("SMOKE_MAX_NEW_TOKENS", str(DEFAULT_MAX_NEW_TOKENS))
     )
-    result = generate_response.remote(
-        prompt=prompt,
-        max_new_tokens=max_new_tokens,
-    )
+    smoke_all = os.environ.get("SMOKE_ALL_EXAMPLES", "1").strip().lower() not in {
+        "0",
+        "false",
+        "no",
+    }
 
-    raw_response = str(result["raw_response"])
-    cleaned_response = clean_generated_text(raw_response)
-    sections = parse_sections(cleaned_response)
     section_names = (
         "problem",
         "knowns",
@@ -154,33 +220,57 @@ def main() -> None:
         "parent",
     )
 
-    print("=== PROMPT ===")
-    print(prompt)
-    print("=== RAW RESPONSE ===")
-    print(raw_response or "[empty]")
-    print("=== CLEANED RESPONSE ===")
-    print(cleaned_response or "[empty]")
-    print("=== PARSED SECTIONS ===")
-    for name, value in zip(section_names, sections, strict=True):
-        print(f"[{name}]")
-        print(value)
-        print()
-    print("=== LOGS ===")
-    print(result["logs"] or "[empty]")
+    cases = (
+        _iter_smoke_cases()
+        if smoke_all
+        else [
+            {
+                "kind": "single",
+                "grade": grade_band,
+                "mode": help_mode,
+                "question": question,
+            }
+        ]
+    )
+    failures: list[str] = []
+    for index, case in enumerate(cases, start=1):
+        prompt = _build_prompt(
+            question=case["question"],
+            grade_band=case["grade"],
+            help_mode=case["mode"],
+        )
+        print(f"=== CASE {index}/{len(cases)} :: {case['kind']} ===")
+        print(f"Grade: {case['grade']} | Mode: {case['mode']}")
+        print(f"Question: {case['question']}")
+        result = generate_response.remote(
+            prompt=prompt,
+            max_new_tokens=max_new_tokens,
+        )
+        raw_response = str(result["raw_response"])
+        cleaned_response = clean_generated_text(raw_response)
+        sections = parse_sections(cleaned_response)
 
-    defaults = {
-        "check": "No answer check generated yet.",
-        "hint": "Ask for a hint after the first explanation.",
-        "parent": "Parent support note will appear here.",
-    }
-    failures = []
-    for name, value in zip(section_names, sections, strict=True):
-        if name in defaults and str(value).strip() in {"", defaults[name]}:
-            failures.append(name)
+        print("=== RAW RESPONSE ===")
+        print(raw_response or "[empty]")
+        print("=== CLEANED RESPONSE ===")
+        print(cleaned_response or "[empty]")
+        print("=== PARSED SECTIONS ===")
+        for name, value in zip(section_names, sections, strict=True):
+            print(f"[{name}]")
+            print(value)
+            print()
+        print("=== LOGS ===")
+        print(result["logs"] or "[empty]")
+
+        missing = _validate_sections(sections)
+        if missing:
+            failure = f"{case['kind']}: missing {', '.join(missing)}"
+            failures.append(failure)
+            print(f"[smoke] {failure}", file=sys.stderr)
+
     if failures:
         raise SystemExit(
-            "Pocket Tutor Modal smoke failed: missing expected sections: "
-            + ", ".join(failures)
+            "Pocket Tutor Modal smoke failed for examples: " + "; ".join(failures)
         )
 
-    print("Pocket Tutor Modal smoke test passed.")
+    print("Pocket Tutor Modal smoke test passed for all examples.")
